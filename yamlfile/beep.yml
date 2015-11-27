@@ -1,0 +1,81 @@
+# ~/.tmuxinator/hello.yml
+
+name: hello
+root: ~/
+
+# Optional tmux socket
+# socket_name: foo
+
+# Runs before everything. Use it to start daemons etc.
+# pre: sudo /etc/rc.d/mysqld start
+
+# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
+# pre_window: rbenv shell 2.0.0-p247
+
+# Pass command line options to tmux. Useful for specifying a different tmux.conf.
+# tmux_options: -f ~/.tmux.mac.conf
+
+# Change the command to call tmux.  This can be used by derivatives/wrappers like byobu.
+# tmux_command: byobu
+
+# Specifies (by name or index) which window will be selected on project startup. If not set, the first window is used.
+# startup_window: logs
+
+# Controls whether the tmux session should be attached to automatically. Defaults to true.
+# attach: false
+
+# Runs after everything. Use it to attach to tmux with custom options etc.
+# post: tmux -CC attach -t hello
+
+windows:
+  - Xserver:
+      layout: tiled
+      panes:
+        - screenMongostat:
+          - ssh master@10.8.8.111
+          - mongostat
+        - screenHtop:
+          - ssh master@10.8.8.111
+          - htop
+        - screenIotop:
+          - ssh master@10.8.8.111
+          - sudo iotop
+        - screenPm2Logs:
+          - ssh master@10.8.8.111
+          - pm2 logs
+        - screenPm2List:
+          - ssh master@10.8.8.111
+          - pm2 list
+  - BackDoor:
+    layout: tiled
+    panes:
+      - screenMongostat:
+        - ssh master@bd.yangcong345.com
+        - mongostat
+      - screenHtop:
+        - ssh master@bd.yangcong345.com
+        - htop
+      - screenIotop:
+        - ssh master@bd.yangcong345.com
+        - sudo iotop
+      - screenPm2Logs:
+        - ssh master@bd.yangcong345.com
+        - pm2 logs
+      - screenPm2List:
+        - ssh master@bd.yangcong345.com
+        - pm2 list
+  - test:
+    layout: tiled
+    panes:
+      - screenHtop:
+        - ssh master@10.8.8.8
+        - top
+      - screenIotop:
+        - ssh master@10.8.8.8
+        - sudo iotop
+      - screenMongostat:
+        - ssh master@10.8.8.8
+        - mongostat
+      - screenPm2List:
+        - ssh master@10.8.8.8
+        - pm2 list
